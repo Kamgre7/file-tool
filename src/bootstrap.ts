@@ -21,7 +21,7 @@ export class Bootstrap {
     this.app.use(express.json());
   }
 
-  private configureRoutes() {
+  private configureRoutes(): void {
     this.app.use('/tool', fileToolsRouter);
   }
 
@@ -29,7 +29,7 @@ export class Bootstrap {
     this.app.use(errorHandler);
   }
 
-  private startServer() {
+  private startServer(): void {
     this.app.listen(appConfig.port, () => {
       console.log(
         `Application is running on ${appConfig.host}:${appConfig.port}`
