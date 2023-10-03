@@ -8,6 +8,10 @@ import {
   FileToolsService,
   IFileToolsService,
 } from '../domains/fileTools/services/fileToolsService';
+import {
+  TextHandler,
+  ITextHandler,
+} from '../domains/fileTools/textHandler/textHandler';
 
 export const container = new Container();
 
@@ -16,3 +20,5 @@ container
   .to(FileToolsController);
 
 container.bind<IFileToolsService>(TYPES.IFileToolsService).to(FileToolsService);
+
+container.bind<ITextHandler>(TYPES.ITextHandler).to(TextHandler);
