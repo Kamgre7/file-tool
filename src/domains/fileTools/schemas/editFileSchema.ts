@@ -1,10 +1,6 @@
 import { z } from 'zod';
-import {
-  Mode,
-  checkLineParamsValue,
-  isBuffer,
-  transformParams,
-} from './utilSchemas';
+import { checkLineParamsValue, isBuffer, transformParams } from './utilSchemas';
+import { Mode } from '../const';
 
 export const FileSchema = z.object({
   fieldname: z.string().nonempty(),
@@ -28,5 +24,8 @@ export const EditFileSchema = z.object({
   file: FileSchema,
 });
 
-export type Params = z.infer<typeof EditFileParamSchema>;
+export type EditFileParams = z.infer<typeof EditFileParamSchema>;
+
+export type FileInfo = z.infer<typeof FileSchema>;
+
 export type EditFileReq = z.infer<typeof EditFileSchema>;
