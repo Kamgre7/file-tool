@@ -4,6 +4,7 @@ import { EditFileSchema } from '../schemas/editFileSchema';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types/types';
 import { IFileToolsService } from '../services/fileToolsService';
+import { UpdateFileSchema } from '../schemas/updateFileSchema';
 
 export interface IFileToolsController {
   findPhrase(req: Request, res: Response): Promise<void>;
@@ -27,7 +28,29 @@ export class FileToolsController implements IFileToolsController {
     });
   };
 
-  deletePhrase = async (req: Request, res: Response): Promise<void> => {};
+  deletePhrase = async (req: Request, res: Response): Promise<void> => {
+    const { params, file } = EditFileSchema.parse(req);
 
-  updatePhrase = async (req: Request, res: Response): Promise<void> => {};
+    const text = this.fileToolsService.deletePhrases(params, file);
+
+    res.status(200).json({
+      status: 'success',
+      text,
+    });
+  };
+
+  updatePhrase = async (req: Request, res: Response): Promise<void> => {
+    const { params, file, body } = UpdateFileSchema.parse(req);
+
+    const text = this.fileToolsService.updatePhrases(
+      params,
+      file,
+      body.updatedPhrase
+    );
+
+    res.status(200).json({
+      status: 'success',
+      text,
+    });
+  };
 }
