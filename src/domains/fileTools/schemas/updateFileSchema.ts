@@ -1,24 +1,35 @@
 import { z } from 'zod';
-import { EditFileParamSchema, FileSchema } from './editFileSchema';
-import { checkLineParamsValue, transformParams } from './utilSchemas';
 import { regExpPatterns } from '../utils/utils';
+import { FileSchema } from './fileSchema';
+import { Mode } from '../const';
 
-export const UpdateFileBodySchema = z.object({
+export const UpdatePhraseQuerySchema = z
+  .object({
+    mode: z.nativeEnum(Mode),
+    line: z.optional(z.coerce.number().int().min(1)),
+  })
+  .refine((value) => {
+    if (value.mode === Mode.LINE) {
+      return typeof value.line === 'number';
+    }
+
+    return true;
+  });
+
+export const UpdatePhraseBodySchema = z.object({
   updatedPhrase: z
     .string()
-    .nonempty()
+    .min(2)
     .transform((value) =>
       value.replace(regExpPatterns.removeMultipleSpaces, '')
     )
     .refine((value) => value.length > 0),
 });
 
-export const UpdateFileSchema = z.object({
-  params: EditFileParamSchema.refine((value) =>
-    checkLineParamsValue(value)
-  ).transform((value) => transformParams(value)),
+export const UpdatePhraseSchema = z.object({
+  query: UpdatePhraseQuerySchema,
   file: FileSchema,
-  body: UpdateFileBodySchema,
+  body: UpdatePhraseBodySchema,
 });
 
-export type UpdateFileReq = z.infer<typeof UpdateFileSchema>;
+export type UpdatePhraseReq = z.infer<typeof UpdatePhraseSchema>;
