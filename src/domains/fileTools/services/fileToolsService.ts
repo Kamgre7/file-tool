@@ -1,18 +1,27 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { FileInfo } from '../schemas/editFileSchema';
-import { EditParams } from '../const';
 import { TYPES } from '../../types/types';
 import { ITextHandler } from '../textHandler/textHandler';
+import { FileInfo } from '../schemas/fileSchema';
+import { FindPhraseQuery } from '../schemas/findPhraseSchema';
+import {
+  UpdatePhraseBody,
+  UpdatePhraseQuery,
+} from '../schemas/updatePhraseSchema';
+import { DeletePhraseQuery } from '../schemas/deletePhraseSchema';
 
 export interface IFileToolsService {
-  countPhrases(params: EditParams, file: FileInfo): number;
+  countPhrases(phrase: string, query: FindPhraseQuery, file: FileInfo): number;
   updatePhrases(
-    params: EditParams,
-    file: FileInfo,
-    updatedPhrase: string
+    phrasesInfo: UpdatePhraseBody,
+    query: UpdatePhraseQuery,
+    file: FileInfo
   ): string;
-  deletePhrases(params: EditParams, file: FileInfo): string;
+  deletePhrases(
+    phrase: string,
+    query: DeletePhraseQuery,
+    file: FileInfo
+  ): string;
 }
 
 @injectable()
@@ -22,25 +31,29 @@ export class FileToolsService implements IFileToolsService {
     private readonly textHandler: ITextHandler
   ) {}
 
-  countPhrases(params: EditParams, file: FileInfo): number {
+  countPhrases(phrase: string, query: FindPhraseQuery, file: FileInfo): number {
     const text = file.buffer.toString();
 
-    return this.textHandler.countPhrases(text, params);
+    return this.textHandler.countPhrases(phrase, query, text);
   }
 
   updatePhrases(
-    params: EditParams,
-    file: FileInfo,
-    updatedPhrase: string
+    phrasesInfo: UpdatePhraseBody,
+    query: UpdatePhraseQuery,
+    file: FileInfo
   ): string {
     const text = file.buffer.toString();
 
-    return this.textHandler.update(text, params, updatedPhrase);
+    return this.textHandler.update(phrasesInfo, query, text);
   }
 
-  deletePhrases(params: EditParams, file: FileInfo): string {
+  deletePhrases(
+    phrase: string,
+    query: DeletePhraseQuery,
+    file: FileInfo
+  ): string {
     const text = file.buffer.toString();
 
-    return this.textHandler.delete(text, params);
+    return this.textHandler.delete(phrase, query, text);
   }
 }
