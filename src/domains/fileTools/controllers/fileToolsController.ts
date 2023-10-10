@@ -1,15 +1,24 @@
 import 'reflect-metadata';
-import { Request, Response } from 'express';
-import { EditFileSchema } from '../schemas/editFileSchema';
+import { Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types/types';
 import { IFileToolsService } from '../services/fileToolsService';
-import { UpdateFileSchema } from '../schemas/updateFileSchema';
+import { FindPhraseReq, FindPhraseSchema } from '../schemas/findPhraseSchema';
+import { ParsedRequest } from '../../../apiTypes';
+import { UpdatePhraseReq } from '../schemas/updatePhraseSchema';
+import { FileSchema } from '../schemas/fileSchema';
+import { DeletePhraseReq } from '../schemas/deletePhraseSchema';
 
 export interface IFileToolsController {
-  findPhrase(req: Request, res: Response): Promise<void>;
-  deletePhrase(req: Request, res: Response): Promise<void>;
-  updatePhrase(req: Request, res: Response): Promise<void>;
+  findPhrase(req: ParsedRequest<FindPhraseReq>, res: Response): Promise<void>;
+  updatePhrase(
+    req: ParsedRequest<UpdatePhraseReq>,
+    res: Response
+  ): Promise<void>;
+  deletePhrase(
+    req: ParsedRequest<DeletePhraseReq>,
+    res: Response
+  ): Promise<void>;
 }
 @injectable()
 export class FileToolsController implements IFileToolsController {
@@ -18,20 +27,32 @@ export class FileToolsController implements IFileToolsController {
     private readonly fileToolsService: IFileToolsService
   ) {}
 
-  findPhrase = async (req: Request, res: Response): Promise<void> => {
-    const { params, file } = EditFileSchema.parse(req);
+  findPhrase = async (
+    req: ParsedRequest<FindPhraseReq>,
+    res: Response
+  ): Promise<void> => {
+    const { query, body } = req;
+    const file = FileSchema.parse(req.file);
 
-    const phrasesCounter = this.fileToolsService.countPhrases(params, file);
+    const phrasesCounter = this.fileToolsService.countPhrases(
+      body.phrase,
+      query,
+      file
+    );
 
     res.status(200).json({
       foundPhrases: phrasesCounter,
     });
   };
 
-  deletePhrase = async (req: Request, res: Response): Promise<void> => {
-    const { params, file } = EditFileSchema.parse(req);
+  updatePhrase = async (
+    req: ParsedRequest<UpdatePhraseReq>,
+    res: Response
+  ): Promise<void> => {
+    const { body, query } = req;
+    const file = FileSchema.parse(req.file);
 
-    const text = this.fileToolsService.deletePhrases(params, file);
+    const text = this.fileToolsService.updatePhrases(body, query, file);
 
     res.status(200).json({
       status: 'success',
@@ -39,14 +60,14 @@ export class FileToolsController implements IFileToolsController {
     });
   };
 
-  updatePhrase = async (req: Request, res: Response): Promise<void> => {
-    const { params, file, body } = UpdateFileSchema.parse(req);
+  deletePhrase = async (
+    req: ParsedRequest<DeletePhraseReq>,
+    res: Response
+  ): Promise<void> => {
+    const { body, query } = req;
+    const file = FileSchema.parse(req.file);
 
-    const text = this.fileToolsService.updatePhrases(
-      params,
-      file,
-      body.updatedPhrase
-    );
+    const text = this.fileToolsService.deletePhrases(body.phrase, query, file);
 
     res.status(200).json({
       status: 'success',
