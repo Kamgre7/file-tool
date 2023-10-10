@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 import { Router } from 'express';
-import { EditFileSchema } from '../schemas/editFileSchema';
+import { FindPhraseSchema } from '../schemas/findPhraseSchema';
 import multer from 'multer';
 import { IFileToolsController } from '../controllers/fileToolsController';
 import { storage } from '../../../config/multerConfig';
 import { container } from '../../../ioc/inversify.config';
 import { requestValidator } from '../../../middlewares/requestValidator';
 import { TYPES } from '../../types/types';
-import { UpdateFileSchema } from '../schemas/updateFileSchema';
+import { UpdatePhraseSchema } from '../schemas/updatePhraseSchema';
 
 export const fileToolsRouter = Router();
 
@@ -16,21 +16,22 @@ const fileToolsController = container.get<IFileToolsController>(
 );
 
 fileToolsRouter
-  .route('/:phrase/:mode/:line?')
+  .route('/')
+
   .get(
     multer({ storage }).single('file'),
-    requestValidator(EditFileSchema),
+    requestValidator(FindPhraseSchema),
     fileToolsController.findPhrase
   )
 
   .patch(
     multer({ storage }).single('file'),
-    requestValidator(UpdateFileSchema),
+    requestValidator(UpdatePhraseSchema),
     fileToolsController.updatePhrase
   )
 
   .delete(
     multer({ storage }).single('file'),
-    requestValidator(EditFileSchema),
+    requestValidator(FindPhraseSchema),
     fileToolsController.deletePhrase
   );
