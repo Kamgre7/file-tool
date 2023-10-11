@@ -12,13 +12,22 @@ import {
   TextHandler,
   ITextHandler,
 } from '../domains/fileTools/textHandler/textHandler';
+import {
+  IKmpAlgorithm,
+  KmpAlgorithm,
+} from '../domains/fileTools/kmpAlgorithm/kmpAlgorithm';
 
 export const container = new Container();
 
+// FileTools
 container
   .bind<IFileToolsController>(TYPES.IFileToolsController)
   .to(FileToolsController);
 
 container.bind<IFileToolsService>(TYPES.IFileToolsService).to(FileToolsService);
 
+// TextHandler
 container.bind<ITextHandler>(TYPES.ITextHandler).to(TextHandler);
+
+// KMP algorithm
+container.bind<IKmpAlgorithm>(TYPES.IKmpAlgorithm).to(KmpAlgorithm);
