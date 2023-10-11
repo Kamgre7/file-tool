@@ -1,54 +1,74 @@
 import 'reflect-metadata';
-import { injectable } from 'inversify';
-import { EditParams, Mode } from '../const';
+import { inject, injectable } from 'inversify';
 import { BadRequestError } from '../../../errors/badRequestError';
-import { regExpPatterns } from '../utils/utils';
+import { FindPhraseQuery } from '../schemas/findPhraseSchema';
+import { Mode, ModeWithoutFirst } from '../const';
+import { IKmpAlgorithm } from '../kmpAlgorithm/kmpAlgorithm';
+import { TYPES } from '../../types/types';
+import {
+  UpdatePhraseBody,
+  UpdatePhraseQuery,
+} from '../schemas/updatePhraseSchema';
+import { DeletePhraseQuery } from '../schemas/deletePhraseSchema';
 
 export interface ITextHandler {
-  update(text: string, params: EditParams, newPhrase: string): string;
-  delete(text: string, params: EditParams): string;
-  countPhrases(text: string, params: EditParams): number;
+  update(
+    phrasesInfo: UpdatePhraseBody,
+    query: UpdatePhraseQuery,
+    text: string
+  ): string;
+  delete(phrase: string, query: DeletePhraseQuery, text: string): string;
+  replaceByLine(
+    text: string,
+    line: number,
+    currentPhrase: string,
+    newPhrase: string
+  ): string;
+  countPhrases(phrase: string, query: FindPhraseQuery, text: string): number;
   getLineOfText(text: string, line: number): string;
   splitByLines(text: string): string[];
 }
 
 @injectable()
 export class TextHandler implements ITextHandler {
-  constructor() {}
+  constructor(
+    @inject(TYPES.IKmpAlgorithm)
+    private readonly kmpAlgorithm: IKmpAlgorithm
+  ) {}
 
-  update(text: string, params: EditParams, newPhrase: string): string {
-    const flags = params.mode === Mode.FIRST ? 'i' : 'gi';
+  update(
+    phrasesInfo: UpdatePhraseBody,
+    query: UpdatePhraseQuery,
+    text: string
+  ): string {
+    const { mode, line } = query;
+    const { currentPhrase, newPhrase } = phrasesInfo;
 
-    const regExp = new RegExp(`\\b${params.phrase}\\b`, flags);
-
-    if (params.mode === Mode.LINE) {
-      const textByLines = this.splitByLines(text);
-
-      this.validateIfTextLinesGraterThanLine(textByLines.length, params.line!);
-
-      const textToChange = textByLines[params.line! - 1];
-
-      textByLines[params.line! - 1] = textToChange.replace(regExp, newPhrase);
-
-      return textByLines.join('\n');
-    }
-
-    return text.replace(regExp, newPhrase);
+    return mode === Mode.LINE
+      ? this.replaceByLine(text, line!, currentPhrase, newPhrase)
+      : this.kmpAlgorithm.kmpSearchAndReplace(
+          text,
+          currentPhrase,
+          newPhrase,
+          mode
+        );
   }
 
-  delete(text: string, params: EditParams): string {
-    const content = this.update(text, params, '');
+  delete(phrase: string, query: DeletePhraseQuery, text: string): string {
+    const { mode, line } = query;
 
-    return content.replace(regExpPatterns.removeMultipleSpaces, '');
+    return mode === Mode.LINE
+      ? this.replaceByLine(text, line!, phrase, '')
+      : this.kmpAlgorithm.kmpSearchAndReplace(text, phrase, '', mode);
   }
 
-  countPhrases(text: string, params: EditParams): number {
-    this.validateIfNotFirstMode(params.mode);
-
-    const phraseToFind = new RegExp(params.phrase, 'gi');
+  countPhrases(phrase: string, query: FindPhraseQuery, text: string): number {
+    const phraseToFind = new RegExp(`\\b${phrase}\\b`, 'gi');
 
     const content =
-      params.mode === Mode.LINE ? this.getLineOfText(text, params.line!) : text;
+      query.mode === ModeWithoutFirst.LINE
+        ? this.getLineOfText(text, query.line!)
+        : text;
 
     const counter = content.match(phraseToFind);
 
@@ -67,18 +87,32 @@ export class TextHandler implements ITextHandler {
     return text.split('\n');
   }
 
+  replaceByLine(
+    text: string,
+    line: number,
+    currentPhrase: string,
+    newPhrase: string
+  ): string {
+    const textByLines = this.splitByLines(text);
+    this.validateIfTextLinesGraterThanLine(textByLines.length, line);
+
+    const textToChange = textByLines[line - 1];
+
+    textByLines[line - 1] = this.kmpAlgorithm.kmpSearchAndReplace(
+      textToChange,
+      currentPhrase,
+      newPhrase
+    );
+
+    return textByLines.join('\n');
+  }
+
   private validateIfTextLinesGraterThanLine(
     textLines: number,
     line: number
   ): void {
     if (textLines < line) {
       throw new BadRequestError('Invalid line');
-    }
-  }
-
-  private validateIfNotFirstMode(mode: Mode): void {
-    if (mode === Mode.FIRST) {
-      throw new BadRequestError('Invalid mode');
     }
   }
 }
