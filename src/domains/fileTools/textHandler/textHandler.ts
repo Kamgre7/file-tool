@@ -17,6 +17,7 @@ export interface ITextHandler {
     query: UpdatePhraseQuery,
     text: string
   ): string;
+  updateFirst(currentPhrase: string, newPhrase: string, text: string): string;
   delete(phrase: string, query: DeletePhraseQuery, text: string): string;
   replaceByLine(
     text: string,
@@ -44,6 +45,10 @@ export class TextHandler implements ITextHandler {
     const { mode, line } = query;
     const { currentPhrase, newPhrase } = phrasesInfo;
 
+    /*  if (mode === Mode.FIRST) {
+      return this.updateFirst(currentPhrase, newPhrase, text);
+    }
+ */
     return mode === Mode.LINE
       ? this.replaceByLine(text, line!, currentPhrase, newPhrase)
       : this.kmpAlgorithm.kmpSearchAndReplace(
@@ -57,9 +62,19 @@ export class TextHandler implements ITextHandler {
   delete(phrase: string, query: DeletePhraseQuery, text: string): string {
     const { mode, line } = query;
 
+    if (mode === Mode.FIRST) {
+      return this.updateFirst(phrase, '', text);
+    }
+
     return mode === Mode.LINE
       ? this.replaceByLine(text, line!, phrase, '')
       : this.kmpAlgorithm.kmpSearchAndReplace(text, phrase, '', mode);
+  }
+
+  updateFirst(currentPhrase: string, newPhrase: string, text: string): string {
+    const pattern = new RegExp(`\\b${currentPhrase}\\b`, 'i');
+
+    return text.replace(pattern, newPhrase);
   }
 
   countPhrases(phrase: string, query: FindPhraseQuery, text: string): number {

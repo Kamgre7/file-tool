@@ -11,11 +11,23 @@ import { DeletePhraseReq } from '../schemas/deletePhraseSchema';
 
 export interface IFileToolsController {
   findPhrase(req: ParsedRequest<FindPhraseReq>, res: Response): Promise<void>;
+  findPhraseFromZip(
+    req: ParsedRequest<FindPhraseReq>,
+    res: Response
+  ): Promise<void>;
   updatePhrase(
     req: ParsedRequest<UpdatePhraseReq>,
     res: Response
   ): Promise<void>;
+  updatePhraseFromZip(
+    req: ParsedRequest<UpdatePhraseReq>,
+    res: Response
+  ): Promise<void>;
   deletePhrase(
+    req: ParsedRequest<DeletePhraseReq>,
+    res: Response
+  ): Promise<void>;
+  deletePhraseFromZip(
     req: ParsedRequest<DeletePhraseReq>,
     res: Response
   ): Promise<void>;
@@ -34,14 +46,32 @@ export class FileToolsController implements IFileToolsController {
     const { query, body } = req;
     const file = FileSchema.parse(req.file);
 
-    const phrasesCounter = this.fileToolsService.countPhrases(
+    const foundPhrases = this.fileToolsService.countPhrases(
       body.phrase,
       query,
       file
     );
 
     res.status(200).json({
-      foundPhrases: phrasesCounter,
+      foundPhrases,
+    });
+  };
+
+  findPhraseFromZip = async (
+    req: ParsedRequest<FindPhraseReq>,
+    res: Response
+  ): Promise<void> => {
+    const { query, body } = req;
+    const file = FileSchema.parse(req.file);
+
+    const foundPhrases = await this.fileToolsService.countPhrasesFromZip(
+      body.phrase,
+      query,
+      file
+    );
+
+    res.status(200).json({
+      foundPhrases,
     });
   };
 
@@ -60,6 +90,21 @@ export class FileToolsController implements IFileToolsController {
     });
   };
 
+  updatePhraseFromZip = async (
+    req: ParsedRequest<UpdatePhraseReq>,
+    res: Response
+  ): Promise<void> => {
+    const { body, query } = req;
+    const file = FileSchema.parse(req.file);
+
+    // const text = this.fileToolsService.updatePhrases(body, query, file);
+
+    res.status(200).json({
+      status: 'success',
+      //  text,
+    });
+  };
+
   deletePhrase = async (
     req: ParsedRequest<DeletePhraseReq>,
     res: Response
@@ -72,6 +117,21 @@ export class FileToolsController implements IFileToolsController {
     res.status(200).json({
       status: 'success',
       text,
+    });
+  };
+
+  deletePhraseFromZip = async (
+    req: ParsedRequest<DeletePhraseReq>,
+    res: Response
+  ): Promise<void> => {
+    const { body, query } = req;
+    const file = FileSchema.parse(req.file);
+
+    //const text = this.fileToolsService.deletePhrases(body.phrase, query, file);
+
+    res.status(200).json({
+      status: 'success',
+      //text,
     });
   };
 }

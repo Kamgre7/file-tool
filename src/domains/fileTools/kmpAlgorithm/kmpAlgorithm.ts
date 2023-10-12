@@ -2,7 +2,6 @@ import { injectable } from 'inversify';
 import { Mode } from '../const';
 
 export interface IKmpAlgorithm {
-  longestPrefixSuffixArr(pattern: string): number[];
   kmpSearchAndReplace(
     text: string,
     pattern: string,
@@ -15,19 +14,21 @@ export interface IKmpAlgorithm {
 export class KmpAlgorithm implements IKmpAlgorithm {
   constructor() {}
 
-  longestPrefixSuffixArr(str: string): number[] {
-    const table = new Array<number>(str.length);
+  private longestPrefixSuffixArr(pattern: string): number[] {
+    const table = new Array<number>(pattern.length);
 
     let maxPrefix = 0;
     table[0] = 0;
 
-    for (let i = 1; i < str.length; i++) {
-      while (maxPrefix > 0 && str.charAt(i) !== str.charAt(maxPrefix)) {
+    for (let i = 1; i < pattern.length; i++) {
+      while (maxPrefix > 0 && pattern.charAt(i) !== pattern.charAt(maxPrefix)) {
         maxPrefix = table[maxPrefix - 1];
       }
-      if (str.charAt(maxPrefix) === str.charAt(i)) {
+
+      if (pattern.charAt(maxPrefix) === pattern.charAt(i)) {
         maxPrefix++;
       }
+
       table[i] = maxPrefix;
     }
 
@@ -44,16 +45,16 @@ export class KmpAlgorithm implements IKmpAlgorithm {
     const result: string[] = [];
     let i = 0;
     let j = 0;
-    //let found = false;
+    let found = false;
 
     while (i < text.length) {
       if (pattern[j] === text[i]) {
         i++;
         j++;
       }
-
+      // potato potato potato
       if (j === pattern.length) {
-        /*  if (mode === Mode.FIRST && !found) {
+        if (mode === Mode.FIRST && !found) {
           result.push(replacement);
           found = true;
           j = lps[j - 1];
@@ -67,7 +68,7 @@ export class KmpAlgorithm implements IKmpAlgorithm {
 
           result.push(pattern);
           j = lps[j - 1];
-        } */
+        }
 
         /*  if (mode === Mode.FIRST) {
           result.push(replacement);
@@ -76,8 +77,8 @@ export class KmpAlgorithm implements IKmpAlgorithm {
           result.push(replacement);
           j = lps[j - 1];
         } */
-        result.push(replacement);
-        j = lps[j - 1];
+        /*    result.push(replacement);
+        j = lps[j - 1]; */
       } else if (i < text.length && pattern[j] !== text[i]) {
         if (j !== 0) {
           j = lps[j - 1];
@@ -88,39 +89,15 @@ export class KmpAlgorithm implements IKmpAlgorithm {
       }
     }
 
-    while (i < text.length) {
+    /*    while (i < text.length) {
       result.push(text[i]);
       i++;
-    }
+    } */
 
     return result.join('');
   }
 }
 
-/*  kmpMatching(str: string, pattern: string): number[] {
-    const prefixes = this.longestPrefixSuffixArr(pattern);
-    const matches: number[] = [];
+//patato
 
-    let j = 0;
-    let i = 0;
-
-    while (i < str.length) {
-      if (str.charAt(i) === pattern.charAt(j)) {
-        i++;
-        j++;
-      }
-
-      if (j === pattern.length) {
-        matches.push(i - j);
-        j = prefixes[j - 1];
-      } else if (str.charAt(i) !== pattern.charAt(j)) {
-        if (j !== 0) {
-          j = prefixes[j - 1];
-        } else {
-          i++;
-        }
-      }
-    }
-
-    return matches;
-  } */
+//patatoo
