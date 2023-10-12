@@ -16,6 +16,7 @@ import {
   IKmpAlgorithm,
   KmpAlgorithm,
 } from '../domains/fileTools/kmpAlgorithm/kmpAlgorithm';
+import { IZipHandler, ZipHandler } from '../domains/zipHandler/zipHandler';
 
 export const container = new Container();
 
@@ -31,3 +32,6 @@ container.bind<ITextHandler>(TYPES.ITextHandler).to(TextHandler);
 
 // KMP algorithm
 container.bind<IKmpAlgorithm>(TYPES.IKmpAlgorithm).to(KmpAlgorithm);
+
+// zipFiles
+container.bind<IZipHandler>(TYPES.IZipHandler).to(ZipHandler);

@@ -3,4 +3,5 @@ export const TYPES = {
   IFileToolsService: Symbol.for('IFileToolsService'),
   ITextHandler: Symbol.for('ITextHandler'),
   IKmpAlgorithm: Symbol.for('IKmpAlgorithm'),
+  IZipHandler: Symbol.for('IZipHandler'),
 };
