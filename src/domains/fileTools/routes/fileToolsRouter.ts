@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { FindPhraseSchema } from '../schemas/findPhraseSchema';
 import multer from 'multer';
 import { IFileToolsController } from '../controllers/fileToolsController';
-import { storage } from '../../../config/multerConfig';
+import { storage, zipFileFilter } from '../../../config/multerConfig';
 import { container } from '../../../ioc/inversify.config';
 import { requestValidator } from '../../../middlewares/requestValidator';
 import { TYPES } from '../../types/types';
@@ -35,4 +35,25 @@ fileToolsRouter
     multer({ storage }).single('file'),
     requestValidator(DeletePhraseSchema),
     fileToolsController.deletePhrase
+  );
+
+fileToolsRouter
+  .route('/zip')
+
+  .get(
+    multer({ storage, fileFilter: zipFileFilter }).single('file'),
+    requestValidator(FindPhraseSchema),
+    fileToolsController.findPhraseFromZip
+  )
+
+  .patch(
+    multer({ storage, fileFilter: zipFileFilter }).single('file'),
+    requestValidator(UpdatePhraseSchema),
+    fileToolsController.updatePhraseFromZip
+  )
+
+  .delete(
+    multer({ storage, fileFilter: zipFileFilter }).single('file'),
+    requestValidator(DeletePhraseSchema),
+    fileToolsController.deletePhraseFromZip
   );
