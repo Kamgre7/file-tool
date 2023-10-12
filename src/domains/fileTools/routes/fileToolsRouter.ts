@@ -8,6 +8,7 @@ import { container } from '../../../ioc/inversify.config';
 import { requestValidator } from '../../../middlewares/requestValidator';
 import { TYPES } from '../../types/types';
 import { UpdatePhraseSchema } from '../schemas/updatePhraseSchema';
+import { DeletePhraseSchema } from '../schemas/deletePhraseSchema';
 
 export const fileToolsRouter = Router();
 
@@ -32,6 +33,6 @@ fileToolsRouter
 
   .delete(
     multer({ storage }).single('file'),
-    requestValidator(FindPhraseSchema),
+    requestValidator(DeletePhraseSchema),
     fileToolsController.deletePhrase
   );
