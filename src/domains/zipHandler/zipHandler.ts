@@ -1,27 +1,33 @@
-import AdmZip from 'adm-zip';
 import { injectable } from 'inversify';
+import JSZip from 'jszip';
 
-export type UnzipFileInfo = {
+export type UnzipFilesInfo = {
   originalName: string;
-  buffer: Buffer;
+  content: string;
 };
 
 export interface IZipHandler {
-  getFilesInformation(data: Buffer): UnzipFileInfo[];
+  getFilesInformation(data: Buffer): Promise<UnzipFilesInfo[]>;
 }
 
 @injectable()
 export class ZipHandler implements IZipHandler {
   constructor() {}
 
-  getFilesInformation(data: Buffer): UnzipFileInfo[] {
-    const zip = new AdmZip(data);
-    const entries = zip.getEntries();
+  async getFilesInformation(data: Buffer): Promise<UnzipFilesInfo[]> {
+    const zip = new JSZip();
+    await zip.loadAsync(data);
 
-    return entries.map((file) => ({
-      originalName: file.name,
-      buffer: file.getData(),
-    }));
+    return await Promise.all(
+      Object.entries(zip.files).map(async ([entryName, file]) => {
+        const content = await file.async('text');
+
+        return {
+          originalName: entryName,
+          content,
+        };
+      })
+    );
   }
 }
 
