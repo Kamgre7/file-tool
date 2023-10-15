@@ -1,23 +1,19 @@
 import { z } from 'zod';
-import { Mode } from '../const';
 import { FileSchema } from './fileSchema';
-import { type } from 'os';
+import { MODE } from '../types/modeType';
 
-export const DeletePhraseQuerySchema = z
-  .object({
-    mode: z.nativeEnum(Mode),
-    line: z.optional(z.coerce.number().int().min(1)),
-  })
-  .refine((value) => {
-    if (value.mode === Mode.LINE) {
-      return typeof value.line === 'number';
-    }
-
-    return true;
-  });
+export const DeletePhraseQuerySchema = z.discriminatedUnion('mode', [
+  z.object({
+    mode: z.literal(MODE.LINE),
+    line: z.coerce.number().int().min(1),
+  }),
+  z.object({
+    mode: z.union([z.literal(MODE.FIRST), z.literal(MODE.ALL)]),
+  }),
+]);
 
 export const DeletePhraseBodySchema = z.object({
-  phrase: z.string().min(2),
+  phrase: z.string().min(1),
 });
 
 export const DeletePhraseSchema = z.object({

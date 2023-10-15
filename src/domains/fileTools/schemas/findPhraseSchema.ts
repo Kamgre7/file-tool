@@ -1,22 +1,19 @@
 import { z } from 'zod';
-import { ModeWithoutFirst } from '../const';
 import { FileSchema } from './fileSchema';
+import { MODE } from '../types/modeType';
 
-export const FindPhraseQuerySchema = z
-  .object({
-    mode: z.nativeEnum(ModeWithoutFirst),
-    line: z.optional(z.coerce.number().int().min(1)),
-  })
-  .refine((value) => {
-    if (value.mode === ModeWithoutFirst.LINE) {
-      return typeof value.line === 'number';
-    }
-
-    return true;
-  });
+export const FindPhraseQuerySchema = z.discriminatedUnion('mode', [
+  z.object({
+    mode: z.literal(MODE.LINE),
+    line: z.coerce.number().int().min(1),
+  }),
+  z.object({
+    mode: z.literal(MODE.ALL),
+  }),
+]);
 
 export const FindPhraseBodySchema = z.object({
-  phrase: z.string().min(2),
+  phrase: z.string().min(1),
 });
 
 export const FindPhraseSchema = z.object({

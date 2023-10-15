@@ -1,30 +1,20 @@
 import { z } from 'zod';
-import { regExpPatterns } from '../utils/utils';
 import { FileSchema } from './fileSchema';
-import { Mode } from '../const';
+import { MODE } from '../types/modeType';
 
-export const UpdatePhraseQuerySchema = z
-  .object({
-    mode: z.nativeEnum(Mode),
-    line: z.optional(z.coerce.number().int().min(1)),
-  })
-  .refine((value) => {
-    if (value.mode === Mode.LINE) {
-      return typeof value.line === 'number';
-    }
-
-    return true;
-  });
+export const UpdatePhraseQuerySchema = z.discriminatedUnion('mode', [
+  z.object({
+    mode: z.literal(MODE.LINE),
+    line: z.coerce.number().int().min(1),
+  }),
+  z.object({
+    mode: z.union([z.literal(MODE.FIRST), z.literal(MODE.ALL)]),
+  }),
+]);
 
 export const UpdatePhraseBodySchema = z.object({
-  currentPhrase: z.string().min(2),
-  newPhrase: z
-    .string()
-    .min(2)
-    .transform((value) =>
-      value.replace(regExpPatterns.removeMultipleSpaces, '')
-    )
-    .refine((value) => value.length > 0),
+  currentPhrase: z.string().min(1),
+  newPhrase: z.string().min(1),
 });
 
 export const UpdatePhraseSchema = z.object({
