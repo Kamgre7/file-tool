@@ -41,46 +41,35 @@ export class KmpAlgorithm implements IKmpAlgorithm {
     replacement: string,
     mode: Mode = Mode.ALL
   ): string {
-    const lps = this.longestPrefixSuffixArr(pattern);
+    const lps = this.longestPrefixSuffixArr(pattern.toLowerCase());
     const result: string[] = [];
     let i = 0;
     let j = 0;
     let found = false;
 
     while (i < text.length) {
-      if (pattern[j] === text[i]) {
+      if (pattern[j].toLowerCase() === text[i].toLowerCase()) {
         i++;
         j++;
       }
-      // potato potato potato
+
       if (j === pattern.length) {
         if (mode === Mode.FIRST && !found) {
           result.push(replacement);
           found = true;
-          j = lps[j - 1];
-          console.log('1');
         } else if (mode !== Mode.FIRST) {
-          console.log('2');
           result.push(replacement);
-          j = lps[j - 1];
         } else {
-          console.log('3');
-
-          result.push(pattern);
-          j = lps[j - 1];
+          result.push(text.slice(i - j, i));
         }
 
-        /*  if (mode === Mode.FIRST) {
-          result.push(replacement);
-          j = 0;
-        } else {
-          result.push(replacement);
-          j = lps[j - 1];
-        } */
-        /*    result.push(replacement);
-        j = lps[j - 1]; */
-      } else if (i < text.length && pattern[j] !== text[i]) {
+        j = lps[j - 1];
+      } else if (
+        i < text.length &&
+        pattern[j].toLowerCase() !== text[i].toLowerCase()
+      ) {
         if (j !== 0) {
+          result.push(text.slice(i - j, i));
           j = lps[j - 1];
         } else {
           result.push(text[i]);
@@ -89,15 +78,6 @@ export class KmpAlgorithm implements IKmpAlgorithm {
       }
     }
 
-    /*    while (i < text.length) {
-      result.push(text[i]);
-      i++;
-    } */
-
     return result.join('');
   }
 }
-
-//patato
-
-//patatoo
