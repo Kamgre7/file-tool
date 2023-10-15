@@ -45,10 +45,6 @@ export class TextHandler implements ITextHandler {
     const { mode, line } = query;
     const { currentPhrase, newPhrase } = phrasesInfo;
 
-    /*  if (mode === Mode.FIRST) {
-      return this.updateFirst(currentPhrase, newPhrase, text);
-    }
- */
     return mode === Mode.LINE
       ? this.replaceByLine(text, line!, currentPhrase, newPhrase)
       : this.kmpAlgorithm.kmpSearchAndReplace(
@@ -61,10 +57,6 @@ export class TextHandler implements ITextHandler {
 
   delete(phrase: string, query: DeletePhraseQuery, text: string): string {
     const { mode, line } = query;
-
-    if (mode === Mode.FIRST) {
-      return this.updateFirst(phrase, '', text);
-    }
 
     return mode === Mode.LINE
       ? this.replaceByLine(text, line!, phrase, '')
