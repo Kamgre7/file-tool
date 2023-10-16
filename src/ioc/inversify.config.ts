@@ -3,35 +3,34 @@ import {
   FileToolsController,
   IFileToolsController,
 } from '../domains/fileTools/controllers/fileToolsController';
-import { TYPES } from '../domains/types/types';
 import {
   FileToolsService,
   IFileToolsService,
 } from '../domains/fileTools/services/fileToolsService';
 import {
-  TextHandler,
-  ITextHandler,
-} from '../domains/fileTools/textHandler/textHandler';
-import {
   IKmpAlgorithm,
   KmpAlgorithm,
-} from '../domains/fileTools/kmpAlgorithm/kmpAlgorithm';
+} from '../domains/textHandler/kmpAlgorithm/kmpAlgorithm';
 import { IZipHandler, ZipHandler } from '../domains/zipHandler/zipHandler';
+import { TYPES } from './types/types';
+import { ITextHandler, TextHandler } from '../domains/textHandler/textHandler';
 
 export const container = new Container();
 
 // FileTools
 container
-  .bind<IFileToolsController>(TYPES.IFileToolsController)
+  .bind<IFileToolsController>(TYPES.FileToolsControllerToken)
   .to(FileToolsController);
 
-container.bind<IFileToolsService>(TYPES.IFileToolsService).to(FileToolsService);
+container
+  .bind<IFileToolsService>(TYPES.FileToolsServiceToken)
+  .to(FileToolsService);
 
 // TextHandler
-container.bind<ITextHandler>(TYPES.ITextHandler).to(TextHandler);
+container.bind<ITextHandler>(TYPES.TextHandlerToken).to(TextHandler);
 
 // KMP algorithm
-container.bind<IKmpAlgorithm>(TYPES.IKmpAlgorithm).to(KmpAlgorithm);
+container.bind<IKmpAlgorithm>(TYPES.KmpAlgorithmToken).to(KmpAlgorithm);
 
 // zipFiles
-container.bind<IZipHandler>(TYPES.IZipHandler).to(ZipHandler);
+container.bind<IZipHandler>(TYPES.ZipHandlerToken).to(ZipHandler);
