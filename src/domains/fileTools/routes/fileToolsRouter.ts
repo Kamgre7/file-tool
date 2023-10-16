@@ -6,14 +6,14 @@ import { IFileToolsController } from '../controllers/fileToolsController';
 import { storage, zipFileFilter } from '../../../config/multerConfig';
 import { container } from '../../../ioc/inversify.config';
 import { requestValidator } from '../../../middlewares/requestValidator';
-import { TYPES } from '../../types/types';
 import { UpdatePhraseSchema } from '../schemas/updatePhraseSchema';
 import { DeletePhraseSchema } from '../schemas/deletePhraseSchema';
+import { TYPES } from '../../../ioc/types/types';
 
 export const fileToolsRouter = Router();
 
 const fileToolsController = container.get<IFileToolsController>(
-  TYPES.IFileToolsController
+  TYPES.FileToolsControllerToken
 );
 
 fileToolsRouter
