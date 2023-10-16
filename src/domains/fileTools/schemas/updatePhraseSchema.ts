@@ -8,7 +8,7 @@ export const UpdatePhraseQuerySchema = z.discriminatedUnion('mode', [
     line: z.coerce.number().int().min(1),
   }),
   z.object({
-    mode: z.union([z.literal(MODE.FIRST), z.literal(MODE.ALL)]),
+    mode: z.enum([MODE.FIRST, MODE.ALL]),
   }),
 ]);
 
