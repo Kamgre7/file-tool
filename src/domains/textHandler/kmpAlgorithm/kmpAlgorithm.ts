@@ -8,6 +8,7 @@ export interface IKmpAlgorithm {
     replacement: string,
     mode?: ModeType
   ): string;
+  count(text: string, pattern: string): number;
 }
 
 @injectable()
@@ -79,5 +80,37 @@ export class KmpAlgorithm implements IKmpAlgorithm {
     }
 
     return result.join('');
+  }
+
+  count(text: string, pattern: string): number {
+    const lps = this.longestPrefixSuffixArr(pattern);
+    const matches = [];
+
+    let j = 0;
+    let i = 0;
+
+    while (i < text.length) {
+      if (pattern[j].toLowerCase() === text[i].toLowerCase()) {
+        i++;
+        j++;
+      }
+
+      if (j === pattern.length) {
+        matches.push(i - j);
+
+        j = lps[j - 1];
+      } else if (
+        i < text.length &&
+        pattern[j].toLowerCase() !== text[i].toLowerCase()
+      ) {
+        if (j !== 0) {
+          j = lps[j - 1];
+        } else {
+          i++;
+        }
+      }
+    }
+
+    return matches.length;
   }
 }

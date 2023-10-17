@@ -64,14 +64,11 @@ export class TextHandler implements ITextHandler {
 
   countPhrases(phrase: string, query: FindPhraseQuery, text: string): number {
     const { mode } = query;
-    const phraseToFind = new RegExp(`\\b${phrase}\\b`, 'gi');
 
     const content =
       mode === MODE.LINE ? this.getLineOfText(text, query.line) : text;
 
-    const counter = content.match(phraseToFind);
-
-    return counter ? counter.length : 0;
+    return this.kmpAlgorithm.count(content, phrase);
   }
 
   getLineOfText(text: string, line: number): string {
