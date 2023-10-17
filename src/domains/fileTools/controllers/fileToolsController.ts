@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 import { Response } from 'express';
 import { inject, injectable } from 'inversify';
-import { TYPES } from '../../types/types';
 import { IFileToolsService } from '../services/fileToolsService';
-import { FindPhraseReq, FindPhraseSchema } from '../schemas/findPhraseSchema';
+import { FindPhraseReq } from '../schemas/findPhraseSchema';
 import { ParsedRequest } from '../../../apiTypes';
 import { UpdatePhraseReq } from '../schemas/updatePhraseSchema';
 import { FileSchema } from '../schemas/fileSchema';
 import { DeletePhraseReq } from '../schemas/deletePhraseSchema';
+import { TYPES } from '../../../ioc/types/types';
 
 export interface IFileToolsController {
   findPhrase(req: ParsedRequest<FindPhraseReq>, res: Response): Promise<void>;
@@ -35,7 +35,7 @@ export interface IFileToolsController {
 @injectable()
 export class FileToolsController implements IFileToolsController {
   constructor(
-    @inject(TYPES.IFileToolsService)
+    @inject(TYPES.FileToolsServiceToken)
     private readonly fileToolsService: IFileToolsService
   ) {}
 
@@ -97,11 +97,15 @@ export class FileToolsController implements IFileToolsController {
     const { body, query } = req;
     const file = FileSchema.parse(req.file);
 
-    // const text = this.fileToolsService.updatePhrases(body, query, file);
+    const text = await this.fileToolsService.updatePhrasesFromZip(
+      body,
+      query,
+      file
+    );
 
     res.status(200).json({
       status: 'success',
-      //  text,
+      text,
     });
   };
 
@@ -127,11 +131,15 @@ export class FileToolsController implements IFileToolsController {
     const { body, query } = req;
     const file = FileSchema.parse(req.file);
 
-    //const text = this.fileToolsService.deletePhrases(body.phrase, query, file);
+    const text = await this.fileToolsService.deletePhrasesFromZip(
+      body.phrase,
+      query,
+      file
+    );
 
     res.status(200).json({
       status: 'success',
-      //text,
+      text,
     });
   };
 }
