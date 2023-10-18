@@ -4,4 +4,5 @@ export const TYPES = {
   TextHandlerToken: Symbol.for('ITextHandler'),
   KmpAlgorithmToken: Symbol.for('IKmpAlgorithm'),
   ZipHandlerToken: Symbol.for('IZipHandler'),
+  PdfHandlerToken: Symbol.for('IPdfHandler'),
 };
