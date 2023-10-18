@@ -82,12 +82,14 @@ export class FileToolsController implements IFileToolsController {
     const { body, query } = req;
     const file = FileSchema.parse(req.file);
 
-    const text = this.fileToolsService.updatePhrases(body, query, file);
+    const pdf = await this.fileToolsService.updatePhrases(body, query, file);
+    const pdfName = this.fileToolsService.getFilename(file.originalname);
 
-    res.status(200).json({
-      status: 'success',
-      text,
-    });
+    res
+      .status(200)
+      .type('pdf')
+      .setHeader('Content-Disposition', `inline; filename=${pdfName}.pdf`)
+      .send(pdf);
   };
 
   updatePhraseFromZip = async (
@@ -116,12 +118,18 @@ export class FileToolsController implements IFileToolsController {
     const { body, query } = req;
     const file = FileSchema.parse(req.file);
 
-    const text = this.fileToolsService.deletePhrases(body.phrase, query, file);
+    const pdf = await this.fileToolsService.deletePhrases(
+      body.phrase,
+      query,
+      file
+    );
+    const pdfName = this.fileToolsService.getFilename(file.originalname);
 
-    res.status(200).json({
-      status: 'success',
-      text,
-    });
+    res
+      .status(200)
+      .type('pdf')
+      .setHeader('Content-Disposition', `inline; filename=${pdfName}.pdf`)
+      .send(pdf);
   };
 
   deletePhraseFromZip = async (
