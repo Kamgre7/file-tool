@@ -1,9 +1,17 @@
 import 'reflect-metadata';
 import { PDFDocument, PageSizes } from 'pdf-lib';
 import { injectable } from 'inversify';
+import { UpdatedFiles } from '../fileTools/services/fileToolsService';
+import path from 'path';
+
+export type PdfFileData = {
+  filename: string;
+  content: Buffer;
+};
 
 export interface IPdfHandler {
   create(text: string): Promise<Buffer>;
+  createMultiple(filesInfo: UpdatedFiles[]): Promise<PdfFileData[]>;
 }
 @injectable()
 export class PdfHandler implements IPdfHandler {
@@ -25,5 +33,14 @@ export class PdfHandler implements IPdfHandler {
     const pdfBytes = await pdfDoc.save();
 
     return Buffer.from(pdfBytes);
+  }
+
+  async createMultiple(filesInfo: UpdatedFiles[]): Promise<PdfFileData[]> {
+    return await Promise.all(
+      filesInfo.map(async ({ content, filename }) => ({
+        filename: `${path.parse(filename).name}.pdf`,
+        content: await this.create(content),
+      }))
+    );
   }
 }
