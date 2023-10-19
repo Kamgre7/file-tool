@@ -1,7 +1,6 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { TYPES } from '../../types/types';
-import { ITextHandler } from '../textHandler/textHandler';
+import { ITextHandler } from '../../textHandler/textHandler';
 import { FileInfo } from '../schemas/fileSchema';
 import { FindPhraseQuery } from '../schemas/findPhraseSchema';
 import {
@@ -10,10 +9,18 @@ import {
 } from '../schemas/updatePhraseSchema';
 import { DeletePhraseQuery } from '../schemas/deletePhraseSchema';
 import { IZipHandler } from '../../zipHandler/zipHandler';
+import { TYPES } from '../../../ioc/types/types';
+import { IPdfHandler } from '../../pdfHandler/pdfHandler';
+import path from 'path';
 
 export type CountedPhrases = {
   fileName: string;
   foundPhrases: number;
+};
+
+export type UpdatedFiles = {
+  filename: string;
+  content: string;
 };
 
 export interface IFileToolsService {
@@ -27,21 +34,34 @@ export interface IFileToolsService {
     phrasesInfo: UpdatePhraseBody,
     query: UpdatePhraseQuery,
     file: FileInfo
-  ): string;
+  ): Promise<Buffer>;
+  updatePhrasesFromZip(
+    phrasesInfo: UpdatePhraseBody,
+    query: UpdatePhraseQuery,
+    file: FileInfo
+  ): Promise<Buffer>;
   deletePhrases(
     phrase: string,
     query: DeletePhraseQuery,
     file: FileInfo
-  ): string;
+  ): Promise<Buffer>;
+  deletePhrasesFromZip(
+    phrase: string,
+    query: DeletePhraseQuery,
+    file: FileInfo
+  ): Promise<Buffer>;
+  getFilename(filenameWithExt: string): string;
 }
 
 @injectable()
 export class FileToolsService implements IFileToolsService {
   constructor(
-    @inject(TYPES.ITextHandler)
+    @inject(TYPES.TextHandlerToken)
     private readonly textHandler: ITextHandler,
-    @inject(TYPES.IZipHandler)
-    private readonly zipHandler: IZipHandler
+    @inject(TYPES.ZipHandlerToken)
+    private readonly zipHandler: IZipHandler,
+    @inject(TYPES.PdfHandlerToken)
+    private readonly pdfHandler: IPdfHandler
   ) {}
 
   countPhrases(phrase: string, query: FindPhraseQuery, file: FileInfo): number {
@@ -71,23 +91,69 @@ export class FileToolsService implements IFileToolsService {
     });
   }
 
-  updatePhrases(
+  async updatePhrases(
     phrasesInfo: UpdatePhraseBody,
     query: UpdatePhraseQuery,
     file: FileInfo
-  ): string {
+  ): Promise<Buffer> {
     const text = file.buffer.toString();
 
-    return this.textHandler.update(phrasesInfo, query, text);
+    const updatedText = this.textHandler.update(phrasesInfo, query, text);
+
+    return await this.pdfHandler.create(updatedText);
   }
 
-  deletePhrases(
+  async updatePhrasesFromZip(
+    phrasesInfo: UpdatePhraseBody,
+    query: UpdatePhraseQuery,
+    file: FileInfo
+  ): Promise<Buffer> {
+    const filesInfo = await this.zipHandler.getFilesInformation(file.buffer);
+
+    const updatedFiles = filesInfo.map((file) => ({
+      filename: file.originalName,
+      content: this.textHandler.update(phrasesInfo, query, file.content),
+    }));
+
+    const pdfFilesData = await this.pdfHandler.createMultiple(updatedFiles);
+
+    const zip = await this.zipHandler.create(pdfFilesData);
+
+    return zip;
+  }
+
+  async deletePhrases(
     phrase: string,
     query: DeletePhraseQuery,
     file: FileInfo
-  ): string {
+  ): Promise<Buffer> {
     const text = file.buffer.toString();
 
-    return this.textHandler.delete(phrase, query, text);
+    const updatedText = this.textHandler.delete(phrase, query, text);
+
+    return await this.pdfHandler.create(updatedText);
+  }
+
+  async deletePhrasesFromZip(
+    phrase: string,
+    query: DeletePhraseQuery,
+    file: FileInfo
+  ): Promise<Buffer> {
+    const filesInfo = await this.zipHandler.getFilesInformation(file.buffer);
+
+    const updatedFiles = filesInfo.map((file) => ({
+      filename: file.originalName,
+      content: this.textHandler.delete(phrase, query, file.content),
+    }));
+
+    const pdfFilesData = await this.pdfHandler.createMultiple(updatedFiles);
+
+    const zip = await this.zipHandler.create(pdfFilesData);
+
+    return zip;
+  }
+
+  getFilename(fileNameWithExt: string): string {
+    return path.parse(fileNameWithExt).name;
   }
 }
