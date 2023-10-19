@@ -1,5 +1,6 @@
 import { injectable } from 'inversify';
 import JSZip from 'jszip';
+import { PdfFileData } from '../pdfHandler/pdfHandler';
 
 export type UnzipFilesInfo = {
   originalName: string;
@@ -7,6 +8,7 @@ export type UnzipFilesInfo = {
 };
 
 export interface IZipHandler {
+  create(filesData: PdfFileData[]): Promise<Buffer>;
   getFilesInformation(data: Buffer): Promise<UnzipFilesInfo[]>;
 }
 
@@ -28,6 +30,18 @@ export class ZipHandler implements IZipHandler {
         };
       })
     );
+  }
+
+  async create(filesData: PdfFileData[]): Promise<Buffer> {
+    const zip = new JSZip();
+
+    filesData.forEach(({ content, filename }) => {
+      zip.file(filename, content);
+    });
+
+    return await zip.generateAsync({
+      type: 'nodebuffer',
+    });
   }
 }
 
