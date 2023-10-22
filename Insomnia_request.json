@@ -1,0 +1,1036 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2023-10-19T17:43:34.321Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "req_da230fcfc3f44b61a4937c61ba80d561",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697658631762,
+      "created": 1696193266707,
+      "url": "http://localhost:3000/tool",
+      "name": "fnd-all-phrases",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.txt"
+          },
+          {
+            "id": "pair_a8319f77c5e743748c9ec2557cdc9c55",
+            "name": "phrase",
+            "value": "potato",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "all",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1696193266708,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "parentId": null,
+      "modified": 1696193261628,
+      "created": 1696193261628,
+      "name": "FileTool",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_ed0c47b3f7e24fa09b1a6177374dfc65",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697054016134,
+      "created": 1696353640730,
+      "url": "http://localhost:3000/tool",
+      "name": "fnd-by-line-phrases",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.txt"
+          },
+          {
+            "id": "pair_860f3ba65db84f17a509dab39e33ab4e",
+            "name": "phrase",
+            "value": "potato",
+            "description": "",
+            "disabled": false
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "line",
+          "description": "",
+          "disabled": false
+        },
+        {
+          "id": "pair_a16e8f1cc44c4c0892aa4c4cb302b538",
+          "name": "line",
+          "value": "1",
+          "description": "",
+          "disabled": false
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1694972998643,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ef38a73e18a84b09a9a2f21d6860dad9",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1696966310610,
+      "created": 1696353940519,
+      "url": "http://localhost:3000/tool",
+      "name": "find-first",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.txt"
+          },
+          {
+            "id": "pair_e16da19ea06a40b68ef7594720eb1aad",
+            "name": "phrase",
+            "value": "potato",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "first",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1694362864610.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_fee061305c67472b893dc282472ee51d",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697486930297,
+      "created": 1696445715345,
+      "url": "http://localhost:3000/tool",
+      "name": "update-all-phrases",
+      "description": "",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.txt"
+          },
+          {
+            "id": "pair_3f048c87908748b5a7012c6b73ac3bff",
+            "name": "currentPhrase",
+            "value": "potato",
+            "description": ""
+          },
+          {
+            "id": "pair_0e64fbe8be754eee8719b5b73df117b1",
+            "name": "newPhrase",
+            "value": "TESTESTTES",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "all",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1694362864510.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_a857d8f4200e4235be8bae6af1575801",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697486940883,
+      "created": 1696448317690,
+      "url": "http://localhost:3000/tool",
+      "name": "update-by-line-phrase",
+      "description": "",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.txt"
+          },
+          {
+            "id": "pair_3f048c87908748b5a7012c6b73ac3bff",
+            "name": "currentPhrase",
+            "value": "potato",
+            "description": ""
+          },
+          {
+            "id": "pair_ba5b1970fc464c4985736072ab8eafe1",
+            "name": "newPhrase",
+            "value": "TESTEST",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "line",
+          "description": ""
+        },
+        {
+          "id": "pair_d456f84ab60e4aabb38e093e2453d372",
+          "name": "line",
+          "value": "2",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693905264061.125,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_28450338e64e45989aca581e07c344e6",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697486951211,
+      "created": 1696446855350,
+      "url": "http://localhost:3000/tool",
+      "name": "update-first-phrase",
+      "description": "",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.txt"
+          },
+          {
+            "id": "pair_3f048c87908748b5a7012c6b73ac3bff",
+            "name": "currentPhrase",
+            "value": "POTATO",
+            "description": ""
+          },
+          {
+            "id": "pair_83e47ae5e2574bce94d214abd7d1940b",
+            "name": "newPhrase",
+            "value": "CHANGE",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "first",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693905264011.125,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_4dd92caee4724aa6a7a641e9c5835526",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697486985395,
+      "created": 1696450352890,
+      "url": "http://localhost:3000/tool",
+      "name": "delete-all-phrases",
+      "description": "",
+      "method": "DELETE",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.txt"
+          },
+          {
+            "id": "pair_cf576476d5f84c58a83f3f7274f76319",
+            "name": "phrase",
+            "value": "potato",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "all",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693905263961.125,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_7686202ec6a344f883a6a80cdfd3ad63",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697486996892,
+      "created": 1696522031607,
+      "url": "http://localhost:3000/tool",
+      "name": "delete-by-line-phrase",
+      "description": "",
+      "method": "DELETE",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.txt"
+          },
+          {
+            "id": "pair_fdc05e5f58f2401b83e6f757cb60a8e7",
+            "name": "phrase",
+            "value": "potato",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "line",
+          "description": ""
+        },
+        {
+          "id": "pair_805c6fb36c9b4f9e8b95c89fdc924a3b",
+          "name": "line",
+          "value": "1",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693867130615.3438,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_6b19ad08b6f0478eb529abdc987b397d",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697386164806,
+      "created": 1696521989558,
+      "url": "http://localhost:3000/tool",
+      "name": "delete-first-phrase",
+      "description": "",
+      "method": "DELETE",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.txt"
+          },
+          {
+            "id": "pair_126b7e5058f044b7a262bcb43c978cae",
+            "name": "phrase",
+            "value": "potato",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "first",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693828997269.5625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_3952f353ed3d472bbe36754634829878",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697129131309,
+      "created": 1697127760137,
+      "url": "http://localhost:3000/tool/zip",
+      "name": "zip-find-all-phrases",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.zip"
+          },
+          {
+            "id": "pair_a8319f77c5e743748c9ec2557cdc9c55",
+            "name": "phrase",
+            "value": "potato",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "all",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693828997169.5625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_66ce04464ce24466b0deb6e00e7d99e0",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697381600554,
+      "created": 1697381520783,
+      "url": "http://localhost:3000/tool/zip",
+      "name": "zip-find-by-line-phrases",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.zip"
+          },
+          {
+            "id": "pair_860f3ba65db84f17a509dab39e33ab4e",
+            "name": "phrase",
+            "value": "potato",
+            "description": "",
+            "disabled": false
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "line",
+          "description": "",
+          "disabled": false
+        },
+        {
+          "id": "pair_a16e8f1cc44c4c0892aa4c4cb302b538",
+          "name": "line",
+          "value": "2",
+          "description": "",
+          "disabled": false
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693828997069.5625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_5ceb0f6b70c84117a3e96745d323d6b9",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697381650181,
+      "created": 1697381630309,
+      "url": "http://localhost:3000/tool/zip",
+      "name": "zip-find-first",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.zip"
+          },
+          {
+            "id": "pair_e16da19ea06a40b68ef7594720eb1aad",
+            "name": "phrase",
+            "value": "potato",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "first",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693828996969.5625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0f01c1df9d7f4b7fb30e7acf314c31a9",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697560980791,
+      "created": 1697560813361,
+      "url": "http://localhost:3000/tool/zip",
+      "name": "zip-update-all-phrases",
+      "description": "",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.zip"
+          },
+          {
+            "id": "pair_3f048c87908748b5a7012c6b73ac3bff",
+            "name": "currentPhrase",
+            "value": "potato",
+            "description": ""
+          },
+          {
+            "id": "pair_0e64fbe8be754eee8719b5b73df117b1",
+            "name": "newPhrase",
+            "value": "TESTESTTES",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "all",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693828996869.5625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_09231477b8824fae8e7c491665a8b86c",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697561256883,
+      "created": 1697561212353,
+      "url": "http://localhost:3000/tool/zip",
+      "name": "zip-update-by-line-phrase",
+      "description": "",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.zip"
+          },
+          {
+            "id": "pair_3f048c87908748b5a7012c6b73ac3bff",
+            "name": "currentPhrase",
+            "value": "potato",
+            "description": ""
+          },
+          {
+            "id": "pair_ba5b1970fc464c4985736072ab8eafe1",
+            "name": "newPhrase",
+            "value": "TESTEST",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "line",
+          "description": ""
+        },
+        {
+          "id": "pair_d456f84ab60e4aabb38e093e2453d372",
+          "name": "line",
+          "value": "2",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693828996769.5625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_641baf8b96ef49df9a49ec2430cc985c",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697561290681,
+      "created": 1697561270231,
+      "url": "http://localhost:3000/tool/zip",
+      "name": "zip-update-first-phrase",
+      "description": "",
+      "method": "PATCH",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.zip"
+          },
+          {
+            "id": "pair_3f048c87908748b5a7012c6b73ac3bff",
+            "name": "currentPhrase",
+            "value": "POTATO",
+            "description": ""
+          },
+          {
+            "id": "pair_83e47ae5e2574bce94d214abd7d1940b",
+            "name": "newPhrase",
+            "value": "CHANGE",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "first",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693828996669.5625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_3309de994bb84813aafda17c26f833d4",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697562571386,
+      "created": 1697562534554,
+      "url": "http://localhost:3000/tool/zip",
+      "name": "zip-delete-all-phrases",
+      "description": "",
+      "method": "DELETE",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.zip"
+          },
+          {
+            "id": "pair_cf576476d5f84c58a83f3f7274f76319",
+            "name": "phrase",
+            "value": "potato",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "all",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693828996569.5625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_14564ec674af4d819f3818d36a28ad55",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697562625648,
+      "created": 1697562613509,
+      "url": "http://localhost:3000/tool/zip",
+      "name": "zip-delete-by-line-phrase",
+      "description": "",
+      "method": "DELETE",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.zip"
+          },
+          {
+            "id": "pair_fdc05e5f58f2401b83e6f757cb60a8e7",
+            "name": "phrase",
+            "value": "potato",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "line",
+          "description": ""
+        },
+        {
+          "id": "pair_805c6fb36c9b4f9e8b95c89fdc924a3b",
+          "name": "line",
+          "value": "1",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693828996469.5625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_04162d49c1bd4aaf9bdeaa1e359dff3a",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1697562683423,
+      "created": 1697562654188,
+      "url": "http://localhost:3000/tool/zip",
+      "name": "zip-delete-first-phrase",
+      "description": "",
+      "method": "DELETE",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "id": "pair_136277bbcd214ef4a8176570eb1b18cf",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "type": "file",
+            "fileName": "test.zip"
+          },
+          {
+            "id": "pair_126b7e5058f044b7a262bcb43c978cae",
+            "name": "phrase",
+            "value": "potato",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_ac28d844bc744b64979c1461d8a54e50",
+          "name": "mode",
+          "value": "first",
+          "description": ""
+        }
+      ],
+      "headers": [
+        { "name": "Content-Type", "value": "multipart/form-data" },
+        { "name": "User-Agent", "value": "insomnia/2023.5.8" }
+      ],
+      "authentication": {},
+      "metaSortKey": -1693828996369.5625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_264331ccf92cb4399a96fb4933ffa5b22e81b5c5",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1696193261644,
+      "created": 1696193261644,
+      "name": "Base Environment",
+      "data": {},
+      "dataPropertyOrder": null,
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1696193261644,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_264331ccf92cb4399a96fb4933ffa5b22e81b5c5",
+      "parentId": "wrk_35b622e3095e4319938946fc8d1448c8",
+      "modified": 1696193261648,
+      "created": 1696193261648,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    }
+  ]
+}
