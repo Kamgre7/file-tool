@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  node:
+    container_name: file-tool
+    build:
+      context: .
+      target: build
+    volumes:
+      - .:/home
+      - /home/node_modules
+    ports:
+      - ${PORT}:${PORT}
+    env_file: ./.env
+    networks:
+      - local
+
+networks:
+  local:
+    driver: bridge
