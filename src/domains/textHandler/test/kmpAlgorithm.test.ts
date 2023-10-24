@@ -37,8 +37,6 @@ describe('Knuth-Morris-Pratt algorithm', () => {
 
       const newText = kmp.searchAndReplace(text, pattern, replacement, mode);
 
-      console.log({ newText });
-
       expect(newText).toBe(
         'Test Knuth-Morris-Pratt. Test all options with phrase "Test". Test.'
       );
