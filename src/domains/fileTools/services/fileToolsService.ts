@@ -1,5 +1,4 @@
 import { inject, injectable } from 'inversify';
-import 'reflect-metadata';
 import { ITextHandler } from '../../textHandler/textHandler';
 import { FileInfo } from '../schemas/fileSchema';
 import { FindPhraseQuery } from '../schemas/findPhraseSchema';
@@ -15,7 +14,7 @@ import path from 'path';
 
 export type CountedPhrases = {
   fileName: string;
-  foundPhrases: number;
+  filePhraseCount: number;
 };
 
 export type UpdatedFiles = {
@@ -24,7 +23,11 @@ export type UpdatedFiles = {
 };
 
 export interface IFileToolsService {
-  countPhrases(phrase: string, query: FindPhraseQuery, file: FileInfo): number;
+  countPhrases(
+    phrase: string,
+    query: FindPhraseQuery,
+    file: FileInfo
+  ): CountedPhrases;
   countPhrasesFromZip(
     phrase: string,
     query: FindPhraseQuery,
@@ -64,10 +67,19 @@ export class FileToolsService implements IFileToolsService {
     private readonly pdfHandler: IPdfHandler
   ) {}
 
-  countPhrases(phrase: string, query: FindPhraseQuery, file: FileInfo): number {
+  countPhrases(
+    phrase: string,
+    query: FindPhraseQuery,
+    file: FileInfo
+  ): CountedPhrases {
     const text = file.buffer.toString();
 
-    return this.textHandler.countPhrases(phrase, query, text);
+    const filePhraseCount = this.textHandler.countPhrases(phrase, query, text);
+
+    return {
+      fileName: file.originalname,
+      filePhraseCount,
+    };
   }
 
   async countPhrasesFromZip(
@@ -78,7 +90,7 @@ export class FileToolsService implements IFileToolsService {
     const filesInfo = await this.zipHandler.getFilesInformation(file.buffer);
 
     return filesInfo.map((file) => {
-      const filePhraseCounter = this.textHandler.countPhrases(
+      const filePhraseCount = this.textHandler.countPhrases(
         phrase,
         query,
         file.content
@@ -86,7 +98,7 @@ export class FileToolsService implements IFileToolsService {
 
       return {
         fileName: file.originalName,
-        foundPhrases: filePhraseCounter,
+        filePhraseCount,
       };
     });
   }
