@@ -1,5 +1,4 @@
 import express, { Application } from 'express';
-import 'reflect-metadata';
 import 'express-async-errors';
 import { appConfig } from './config/appConfig';
 import { errorHandler } from './middlewares/errorHandler';
@@ -11,13 +10,13 @@ export class Bootstrap {
   constructor() {
     this.app = express();
 
-    this.configureMiddleware();
+    this.configureDefaultMiddleware();
     this.configureRoutes();
     this.configureErrorHandler();
     this.startServer();
   }
 
-  private configureMiddleware(): void {
+  private configureDefaultMiddleware(): void {
     this.app.use(express.json());
   }
 
