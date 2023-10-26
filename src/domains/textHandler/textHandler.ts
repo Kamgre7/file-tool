@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { BadRequestError } from '../../errors/badRequestError';
 import { FindPhraseQuery } from '../fileTools/schemas/findPhraseSchema';

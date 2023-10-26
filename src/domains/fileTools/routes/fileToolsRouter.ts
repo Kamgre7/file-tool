@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { Router } from 'express';
 import { FindPhraseSchema } from '../schemas/findPhraseSchema';
 import multer from 'multer';

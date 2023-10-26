@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { IFileToolsService } from '../services/fileToolsService';
@@ -32,6 +31,7 @@ export interface IFileToolsController {
     res: Response
   ): Promise<void>;
 }
+
 @injectable()
 export class FileToolsController implements IFileToolsController {
   constructor(
@@ -46,14 +46,14 @@ export class FileToolsController implements IFileToolsController {
     const { query, body } = req;
     const file = FileSchema.parse(req.file);
 
-    const foundPhrases = this.fileToolsService.countPhrases(
+    const foundPhrasesCount = this.fileToolsService.countPhrases(
       body.phrase,
       query,
       file
     );
 
     res.status(200).json({
-      foundPhrases,
+      foundPhrasesCount,
     });
   };
 
@@ -64,14 +64,14 @@ export class FileToolsController implements IFileToolsController {
     const { query, body } = req;
     const file = FileSchema.parse(req.file);
 
-    const foundPhrases = await this.fileToolsService.countPhrasesFromZip(
+    const foundPhrasesCount = await this.fileToolsService.countPhrasesFromZip(
       body.phrase,
       query,
       file
     );
 
     res.status(200).json({
-      foundPhrases,
+      foundPhrasesCount,
     });
   };
 
