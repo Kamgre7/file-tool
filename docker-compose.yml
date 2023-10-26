@@ -11,9 +11,3 @@ services:
     ports:
       - ${PORT}:${PORT}
     env_file: ./.env
-    networks:
-      - local
-
-networks:
-  local:
-    driver: bridge
