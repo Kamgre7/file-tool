@@ -1,19 +1,26 @@
-import { container } from '../../../ioc/inversify.config';
-import { TYPES } from '../../../ioc/types/types';
 import { IPdfHandler } from '../../pdfHandler/pdfHandler';
+import { KmpAlgorithm } from '../../textHandler/kmpAlgorithm/kmpAlgorithm';
+import { TextHandler } from '../../textHandler/textHandler';
+import { IZipHandler, ZipHandler } from '../../zipHandler/zipHandler';
 import { FileInfo } from '../schemas/fileSchema';
 import { FindPhraseQuery } from '../schemas/findPhraseSchema';
 import {
   UpdatePhraseBody,
   UpdatePhraseQuery,
 } from '../schemas/updatePhraseSchema';
-import { IFileToolsService } from '../services/fileToolsService';
+import {
+  FileToolsService,
+  IFileToolsService,
+  UpdatedFiles,
+} from '../services/fileToolsService';
 import { MODE } from '../types/modeType';
-import { PdfHandlerMock } from './config/inversify.test.config';
 
 describe('File tools service', () => {
   let fileToolsService: IFileToolsService;
   let file: FileInfo;
+
+  let pdfHandlerMock: IPdfHandler;
+  let zipHandlerMock: IZipHandler;
 
   let findPhraseInfo: FindPhraseQuery;
 
@@ -30,13 +37,41 @@ describe('File tools service', () => {
   let textAfterFirstDelete: string;
   let textAfterLineDelete: string;
 
-  beforeAll(() => {
-    container.rebind<IPdfHandler>(TYPES.PdfHandlerToken).to(PdfHandlerMock);
-  });
-
   beforeEach(() => {
-    fileToolsService = container.get<IFileToolsService>(
-      TYPES.FileToolsServiceToken
+    text = 'Algorithm Knuth-Morris-Pratt.\n Algorithm.';
+
+    pdfHandlerMock = {
+      create: jest
+        .fn()
+        .mockImplementation(async (text: string) => Buffer.from(text)),
+      createMultiple: jest
+        .fn()
+        .mockImplementation(async (filesInfo: UpdatedFiles[]) => [
+          {
+            filename: 'test1.pdf',
+            content: Buffer.from('test1'),
+          },
+          {
+            filename: 'test2.pdf',
+            content: Buffer.from('test2'),
+          },
+        ]),
+    };
+
+    zipHandlerMock = {
+      create: jest.fn().mockResolvedValue(Buffer.from(text)),
+      getFilesInformation: jest.fn().mockResolvedValue([
+        {
+          originalName: 'text',
+          content: text,
+        },
+      ]),
+    };
+
+    fileToolsService = new FileToolsService(
+      new TextHandler(new KmpAlgorithm()),
+      zipHandlerMock,
+      pdfHandlerMock
     );
 
     findPhraseInfo = {
@@ -51,8 +86,6 @@ describe('File tools service', () => {
     updatePhraseMode = {
       mode: MODE.ALL,
     };
-
-    text = 'Algorithm Knuth-Morris-Pratt.\n Algorithm.';
 
     textAfterAllUpdate = 'Change Knuth-Morris-Pratt.\n Change.';
     textAfterFirstUpdate = 'Change Knuth-Morris-Pratt.\n Algorithm.';
@@ -72,6 +105,10 @@ describe('File tools service', () => {
     };
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('Phrase counter', () => {
     it('Should count all phrases from text', () => {
       const counter = fileToolsService.countPhrases(
@@ -80,7 +117,9 @@ describe('File tools service', () => {
         file
       );
 
-      expect(counter).toEqual(2);
+      expect(counter).toStrictEqual({ fileName: 'text', filePhraseCount: 2 });
+
+      expect(pdfHandlerMock.create).toBeCalledTimes(0);
     });
 
     it('Should count phrases only from selected line', () => {
@@ -95,7 +134,40 @@ describe('File tools service', () => {
         file
       );
 
-      expect(counter).toEqual(1);
+      expect(counter).toStrictEqual({ fileName: 'text', filePhraseCount: 1 });
+
+      expect(pdfHandlerMock.create).toBeCalledTimes(0);
+    });
+
+    it('Should count all phrases from all files in zip', async () => {
+      const counter = await fileToolsService.countPhrasesFromZip(
+        'algorithm',
+        findPhraseInfo,
+        file
+      );
+
+      expect(counter).toStrictEqual([{ fileName: 'text', filePhraseCount: 2 }]);
+
+      expect(pdfHandlerMock.create).toBeCalledTimes(0);
+      expect(zipHandlerMock.getFilesInformation).toBeCalledTimes(1);
+    });
+
+    it('Should count phrases from all files - only selected line', async () => {
+      findPhraseInfo = {
+        mode: MODE.LINE,
+        line: 2,
+      };
+
+      const counter = await fileToolsService.countPhrasesFromZip(
+        'algorithm',
+        findPhraseInfo,
+        file
+      );
+
+      expect(counter).toStrictEqual([{ fileName: 'text', filePhraseCount: 1 }]);
+
+      expect(pdfHandlerMock.create).toBeCalledTimes(0);
+      expect(zipHandlerMock.getFilesInformation).toBeCalledTimes(1);
     });
   });
 
@@ -136,6 +208,19 @@ describe('File tools service', () => {
 
       expect(result.toString()).toBe(textAfterLineUpdate);
     });
+
+    it('Should update all phrases from text in zip files', async () => {
+      const result = await fileToolsService.updatePhrasesFromZip(
+        updatePhraseInfo,
+        updatePhraseMode,
+        file
+      );
+
+      expect(result).toBeInstanceOf(Buffer);
+      expect(zipHandlerMock.getFilesInformation).toBeCalledTimes(1);
+      expect(zipHandlerMock.create).toBeCalledTimes(1);
+      expect(pdfHandlerMock.createMultiple).toBeCalledTimes(1);
+    });
   });
 
   describe('Phrase delete', () => {
@@ -174,6 +259,19 @@ describe('File tools service', () => {
       );
 
       expect(result.toString()).toBe(textAfterLineDelete);
+    });
+
+    it('Should delete all phrases from text in zip files', async () => {
+      const result = await fileToolsService.deletePhrasesFromZip(
+        'algorithm',
+        updatePhraseMode,
+        file
+      );
+
+      expect(result).toBeInstanceOf(Buffer);
+      expect(zipHandlerMock.getFilesInformation).toBeCalledTimes(1);
+      expect(zipHandlerMock.create).toBeCalledTimes(1);
+      expect(pdfHandlerMock.createMultiple).toBeCalledTimes(1);
     });
   });
 

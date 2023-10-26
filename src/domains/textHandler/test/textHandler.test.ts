@@ -1,12 +1,11 @@
-import { container } from '../../../ioc/inversify.config';
-import { TYPES } from '../../../ioc/types/types';
 import { FindPhraseQuery } from '../../fileTools/schemas/findPhraseSchema';
 import {
   UpdatePhraseBody,
   UpdatePhraseQuery,
 } from '../../fileTools/schemas/updatePhraseSchema';
-import { MODE, ModeType } from '../../fileTools/types/modeType';
-import { ITextHandler } from '../textHandler';
+import { MODE } from '../../fileTools/types/modeType';
+import { KmpAlgorithm } from '../kmpAlgorithm/kmpAlgorithm';
+import { ITextHandler, TextHandler } from '../textHandler';
 
 describe('Text handler', () => {
   let findPhraseInfo: FindPhraseQuery;
@@ -16,7 +15,7 @@ describe('Text handler', () => {
   let textHandler: ITextHandler;
 
   beforeAll(() => {
-    textHandler = container.get<ITextHandler>(TYPES.TextHandlerToken);
+    textHandler = new TextHandler(new KmpAlgorithm());
   });
 
   beforeEach(() => {

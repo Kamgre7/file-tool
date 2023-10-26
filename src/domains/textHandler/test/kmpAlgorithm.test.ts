@@ -1,7 +1,5 @@
-import { container } from '../../../ioc/inversify.config';
-import { TYPES } from '../../../ioc/types/types';
 import { MODE, ModeType } from '../../fileTools/types/modeType';
-import { IKmpAlgorithm } from '../kmpAlgorithm/kmpAlgorithm';
+import { IKmpAlgorithm, KmpAlgorithm } from '../kmpAlgorithm/kmpAlgorithm';
 
 describe('Knuth-Morris-Pratt algorithm', () => {
   let text: string;
@@ -10,7 +8,7 @@ describe('Knuth-Morris-Pratt algorithm', () => {
   let kmp: IKmpAlgorithm;
 
   beforeAll(() => {
-    kmp = container.get<IKmpAlgorithm>(TYPES.KmpAlgorithmToken);
+    kmp = new KmpAlgorithm();
   });
 
   beforeEach(() => {

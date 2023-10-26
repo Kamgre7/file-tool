@@ -1,6 +1,4 @@
 import { IZipHandler, ZipHandler } from '../zipHandler';
-import { container } from '../../../ioc/inversify.config';
-import { TYPES } from '../../../ioc/types/types';
 
 describe('Zip handler', () => {
   let firstFilename: string;
@@ -9,10 +7,10 @@ describe('Zip handler', () => {
   let secondFilename: string;
   let secondFileContent: Buffer;
 
-  let zipHandler: ZipHandler;
+  let zipHandler: IZipHandler;
 
   beforeAll(async () => {
-    zipHandler = container.get<IZipHandler>(TYPES.ZipHandlerToken);
+    zipHandler = new ZipHandler();
 
     firstFilename = 'firstFile.txt';
     firstFileContent = Buffer.from('Content of first file');
